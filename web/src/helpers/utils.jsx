@@ -751,7 +751,7 @@ export const createCardProPagination = ({
 const DEFAULT_PRICING_FILTERS = {
   search: '',
   showWithRecharge: false,
-  currency: 'USD',
+  currency: 'CNY',
   showRatio: false,
   viewMode: 'card',
   tokenUnit: 'M',

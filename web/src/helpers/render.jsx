@@ -833,7 +833,9 @@ export function renderQuotaNumberWithDigit(num, digits = 2) {
   let displayInCurrency = localStorage.getItem('display_in_currency');
   num = num.toFixed(digits);
   if (displayInCurrency) {
-    return '$' + num;
+    const cur = (localStorage.getItem('currency') || localStorage.getItem('pricing_currency') || 'CNY').toUpperCase();
+    const symbol = cur === 'CNY' ? '¥' : '$';
+    return symbol + num;
   }
   return num;
 }
@@ -890,7 +892,9 @@ export function renderQuotaWithAmount(amount) {
   let displayInCurrency = localStorage.getItem('display_in_currency');
   displayInCurrency = displayInCurrency === 'true';
   if (displayInCurrency) {
-    return '$' + amount;
+    const cur = (localStorage.getItem('currency') || localStorage.getItem('pricing_currency') || 'CNY').toUpperCase();
+    const symbol = cur === 'CNY' ? '¥' : '$';
+    return symbol + amount;
   } else {
     return renderNumber(renderUnitWithQuota(amount));
   }
@@ -908,10 +912,14 @@ export function renderQuota(quota, digits = 2) {
     // 如果 toFixed 后结果为 0 但原始值不为 0，显示最小值
     if (parseFloat(fixedResult) === 0 && quota > 0 && result > 0) {
       const minValue = Math.pow(10, -digits);
-      return '$' + minValue.toFixed(digits);
+      const cur = (localStorage.getItem('currency') || localStorage.getItem('pricing_currency') || 'CNY').toUpperCase();
+      const symbol = cur === 'CNY' ? '¥' : '$';
+      return symbol + minValue.toFixed(digits);
     }
 
-    return '$' + fixedResult;
+    const cur = (localStorage.getItem('currency') || localStorage.getItem('pricing_currency') || 'CNY').toUpperCase();
+    const symbol = cur === 'CNY' ? '¥' : '$';
+    return symbol + fixedResult;
   }
   return renderNumber(quota);
 }
