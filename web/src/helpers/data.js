@@ -24,6 +24,9 @@ export function setStatusData(data) {
   localStorage.setItem('footer_html', data.footer_html);
   localStorage.setItem('quota_per_unit', data.quota_per_unit);
   localStorage.setItem('display_in_currency', data.display_in_currency);
+  if (data.usd_exchange_rate !== undefined) {
+    localStorage.setItem('usd_exchange_rate', String(data.usd_exchange_rate));
+  }
   localStorage.setItem('enable_drawing', data.enable_drawing);
   localStorage.setItem('enable_task', data.enable_task);
   localStorage.setItem('enable_data_export', data.enable_data_export);

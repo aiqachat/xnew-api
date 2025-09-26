@@ -831,12 +831,15 @@ export function renderQuotaNumberWithDigit(num, digits = 2) {
     return 0;
   }
   let displayInCurrency = localStorage.getItem('display_in_currency');
-  num = num.toFixed(digits);
+  displayInCurrency = displayInCurrency === 'true';
   if (displayInCurrency) {
     const cur = (localStorage.getItem('currency') || localStorage.getItem('pricing_currency') || 'CNY').toUpperCase();
+    const usdExchangeRate = parseFloat(localStorage.getItem('usd_exchange_rate') || '1');
+    const value = cur === 'CNY' ? num * usdExchangeRate : num;
     const symbol = cur === 'CNY' ? '¥' : '$';
-    return symbol + num;
+    return symbol + value.toFixed(digits);
   }
+  num = num.toFixed(digits);
   return num;
 }
 
@@ -893,8 +896,10 @@ export function renderQuotaWithAmount(amount) {
   displayInCurrency = displayInCurrency === 'true';
   if (displayInCurrency) {
     const cur = (localStorage.getItem('currency') || localStorage.getItem('pricing_currency') || 'CNY').toUpperCase();
+    const usdExchangeRate = parseFloat(localStorage.getItem('usd_exchange_rate') || '1');
+    const displayAmount = cur === 'CNY' ? amount * usdExchangeRate : amount;
     const symbol = cur === 'CNY' ? '¥' : '$';
-    return symbol + amount;
+    return symbol + displayAmount;
   } else {
     return renderNumber(renderUnitWithQuota(amount));
   }
@@ -907,17 +912,19 @@ export function renderQuota(quota, digits = 2) {
   displayInCurrency = displayInCurrency === 'true';
   if (displayInCurrency) {
     const result = quota / quotaPerUnit;
-    const fixedResult = result.toFixed(digits);
+    const cur = (localStorage.getItem('currency') || localStorage.getItem('pricing_currency') || 'CNY').toUpperCase();
+    const usdExchangeRate = parseFloat(localStorage.getItem('usd_exchange_rate') || '1');
+    const displayResult = cur === 'CNY' ? result * usdExchangeRate : result;
+    const fixedResult = displayResult.toFixed(digits);
 
     // 如果 toFixed 后结果为 0 但原始值不为 0，显示最小值
     if (parseFloat(fixedResult) === 0 && quota > 0 && result > 0) {
-      const minValue = Math.pow(10, -digits);
-      const cur = (localStorage.getItem('currency') || localStorage.getItem('pricing_currency') || 'CNY').toUpperCase();
+      const minBase = Math.pow(10, -digits);
+      const minValue = cur === 'CNY' ? minBase * usdExchangeRate : minBase;
       const symbol = cur === 'CNY' ? '¥' : '$';
       return symbol + minValue.toFixed(digits);
     }
 
-    const cur = (localStorage.getItem('currency') || localStorage.getItem('pricing_currency') || 'CNY').toUpperCase();
     const symbol = cur === 'CNY' ? '¥' : '$';
     return symbol + fixedResult;
   }
