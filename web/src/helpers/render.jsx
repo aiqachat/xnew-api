@@ -835,7 +835,7 @@ export function renderQuotaNumberWithDigit(num, digits = 2) {
   if (displayInCurrency) {
     const cur = (localStorage.getItem('currency') || localStorage.getItem('pricing_currency') || 'CNY').toUpperCase();
     const usdExchangeRate = parseFloat(localStorage.getItem('usd_exchange_rate') || '1');
-    const value = cur === 'CNY' ? num * usdExchangeRate : num;
+    const value = cur === 'CNY' ? num : num / usdExchangeRate;
     const symbol = cur === 'CNY' ? '¥' : '$';
     return symbol + value.toFixed(digits);
   }
@@ -891,15 +891,15 @@ export function getQuotaWithUnit(quota, digits = 6) {
   return (quota / quotaPerUnit).toFixed(digits);
 }
 
-export function renderQuotaWithAmount(amount) {
+export function renderQuotaWithAmount(amount, digits = 2) {
   let displayInCurrency = localStorage.getItem('display_in_currency');
   displayInCurrency = displayInCurrency === 'true';
   if (displayInCurrency) {
     const cur = (localStorage.getItem('currency') || localStorage.getItem('pricing_currency') || 'CNY').toUpperCase();
     const usdExchangeRate = parseFloat(localStorage.getItem('usd_exchange_rate') || '1');
-    const displayAmount = cur === 'CNY' ? amount : amount * usdExchangeRate;
+    const displayAmount = cur === 'CNY' ? amount : amount / usdExchangeRate;
     const symbol = cur === 'CNY' ? '¥' : '$';
-    return symbol + displayAmount;
+    return symbol + displayAmount.toFixed(digits);
   } else {
     return renderNumber(renderUnitWithQuota(amount));
   }
@@ -914,7 +914,7 @@ export function renderQuota(quota, digits = 2) {
     const result = quota / quotaPerUnit;
     const cur = (localStorage.getItem('currency') || localStorage.getItem('pricing_currency') || 'CNY').toUpperCase();
     const usdExchangeRate = parseFloat(localStorage.getItem('usd_exchange_rate') || '1');
-    const displayResult = cur === 'CNY' ? result : result * usdExchangeRate;
+    const displayResult = cur === 'CNY' ? result : result / usdExchangeRate;
     const fixedResult = displayResult.toFixed(digits);
 
     // 如果 toFixed 后结果为 0 但原始值不为 0，显示最小值
