@@ -897,7 +897,7 @@ export function renderQuotaWithAmount(amount) {
   if (displayInCurrency) {
     const cur = (localStorage.getItem('currency') || localStorage.getItem('pricing_currency') || 'CNY').toUpperCase();
     const usdExchangeRate = parseFloat(localStorage.getItem('usd_exchange_rate') || '1');
-    const displayAmount = cur === 'CNY' ? amount * usdExchangeRate : amount;
+    const displayAmount = cur === 'CNY' ? amount : amount * usdExchangeRate;
     const symbol = cur === 'CNY' ? '¥' : '$';
     return symbol + displayAmount;
   } else {
@@ -914,13 +914,13 @@ export function renderQuota(quota, digits = 2) {
     const result = quota / quotaPerUnit;
     const cur = (localStorage.getItem('currency') || localStorage.getItem('pricing_currency') || 'CNY').toUpperCase();
     const usdExchangeRate = parseFloat(localStorage.getItem('usd_exchange_rate') || '1');
-    const displayResult = cur === 'CNY' ? result * usdExchangeRate : result;
+    const displayResult = cur === 'CNY' ? result : result * usdExchangeRate;
     const fixedResult = displayResult.toFixed(digits);
 
     // 如果 toFixed 后结果为 0 但原始值不为 0，显示最小值
     if (parseFloat(fixedResult) === 0 && quota > 0 && result > 0) {
       const minBase = Math.pow(10, -digits);
-      const minValue = cur === 'CNY' ? minBase * usdExchangeRate : minBase;
+      const minValue = cur === 'CNY' ? minBase : minBase * usdExchangeRate;
       const symbol = cur === 'CNY' ? '¥' : '$';
       return symbol + minValue.toFixed(digits);
     }
