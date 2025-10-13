@@ -148,16 +148,16 @@ export const useModelPricingData = () => {
     [selectedRowKeys],
   );
 
-  const displayPrice = (usdPrice) => {
-    let priceInUSD = usdPrice;
+  const displayPrice = (cnyPrice) => {
+    let priceInCNY = cnyPrice;
     if (showWithRecharge) {
-      priceInUSD = (usdPrice * priceRate) / usdExchangeRate;
+      priceInCNY = (cnyPrice * priceRate) / usdExchangeRate;
     }
 
-    if (currency === 'CNY') {
-      return `¥${(priceInUSD * usdExchangeRate).toFixed(3)}`;
+    if (currency === 'USD') {
+      return `¥${(priceInCNY * usdExchangeRate).toFixed(3)}`;
     }
-    return `$${priceInUSD.toFixed(3)}`;
+    return `$${priceInCNY.toFixed(3)}`;
   };
 
   const setModelsFormat = (models, groupRatio, vendorMap) => {
