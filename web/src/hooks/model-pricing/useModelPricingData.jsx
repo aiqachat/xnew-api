@@ -154,10 +154,10 @@ export const useModelPricingData = () => {
       priceInCNY = (cnyPrice * priceRate) / usdExchangeRate;
     }
 
-    if (currency === 'USD') {
-      return `¥${(priceInCNY * usdExchangeRate).toFixed(3)}`;
+    if (currency === 'CNY') {
+      return `¥${priceInCNY.toFixed(3)}`;
     }
-    return `$${priceInCNY.toFixed(3)}`;
+    return `$${(priceInCNY * usdExchangeRate).toFixed(3)}`;
   };
 
   const setModelsFormat = (models, groupRatio, vendorMap) => {
