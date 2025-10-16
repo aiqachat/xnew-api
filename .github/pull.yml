@@ -1,7 +1,0 @@
-version: "1"
-rules:
-  - base: main          # 你的 fork 的分支
-    upstream: QuantumNous/new-api  # 上游项目
-    mergeMethod: merge  # 可选值：merge、rebase、hardreset
-    conflictReviewers:  # 如果有冲突，通知谁
-      - aiqachat
