@@ -26,6 +26,9 @@ type ImageRequest struct {
 	OutputFormat      json.RawMessage `json:"output_format,omitempty"`
 	OutputCompression json.RawMessage `json:"output_compression,omitempty"`
 	PartialImages     json.RawMessage `json:"partial_images,omitempty"`
+	// sequential image generation (Doubao Seedream)
+	SequentialImageGeneration        string          `json:"sequential_image_generation,omitempty"`
+	SequentialImageGenerationOptions json.RawMessage `json:"sequential_image_generation_options,omitempty"`
 	// Stream            bool            `json:"stream,omitempty"`
 	Watermark *bool           `json:"watermark,omitempty"`
 	Image     json.RawMessage `json:"image,omitempty"`
