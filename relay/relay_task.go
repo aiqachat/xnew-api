@@ -269,7 +269,7 @@ func sunoFetchRespBodyBuilder(c *gin.Context) (respBody []byte, taskResp *dto.Ta
 	} else {
 		tasks = make([]any, 0)
 	}
-	respBody, err = json.Marshal(dto.TaskResponse[[]any]{
+	respBody, err = common.Marshal(dto.TaskResponse[[]any]{
 		Code: "success",
 		Data: tasks,
 	})
@@ -290,7 +290,7 @@ func sunoFetchByIDRespBodyBuilder(c *gin.Context) (respBody []byte, taskResp *dt
 		return
 	}
 
-	respBody, err = json.Marshal(dto.TaskResponse[any]{
+	respBody, err = common.Marshal(dto.TaskResponse[any]{
 		Code: "success",
 		Data: TaskModel2Dto(originTask),
 	})
@@ -391,7 +391,7 @@ func videoFetchByIDRespBodyBuilder(c *gin.Context) (respBody []byte, taskResp *d
 					"task_id":  originTask.TaskID,
 					"url":      originTask.FailReason,
 				}
-				respBody, _ = json.Marshal(dto.TaskResponse[any]{
+				respBody, _ = common.Marshal(dto.TaskResponse[any]{
 					Code: "success",
 					Data: out,
 				})
@@ -421,7 +421,7 @@ func videoFetchByIDRespBodyBuilder(c *gin.Context) (respBody []byte, taskResp *d
 		taskResp = service.TaskErrorWrapperLocal(errors.New(fmt.Sprintf("not_implemented:%s", originTask.Platform)), "not_implemented", http.StatusNotImplemented)
 		return
 	}
-	respBody, err = json.Marshal(dto.TaskResponse[any]{
+	respBody, err = common.Marshal(dto.TaskResponse[any]{
 		Code: "success",
 		Data: TaskModel2Dto(originTask),
 	})
@@ -432,7 +432,7 @@ func videoFetchByIDRespBodyBuilder(c *gin.Context) (respBody []byte, taskResp *d
 }
 
 func TaskModel2Dto(task *model.Task) *dto.TaskDto {
-	return &dto.TaskDto{
+	dto := &dto.TaskDto{
 		TaskID:     task.TaskID,
 		Action:     task.Action,
 		Status:     string(task.Status),
@@ -443,4 +443,13 @@ func TaskModel2Dto(task *model.Task) *dto.TaskDto {
 		Progress:   task.Progress,
 		Data:       task.Data,
 	}
+	
+	// 当任务成功时，将 FailReason 中的 URL 移到 Url 字段
+	// 这样做是因为历史原因，FailReason 被用来存储成功时的资源 URL
+	if task.Status == model.TaskStatusSuccess && task.FailReason != "" {
+		dto.Url = task.FailReason
+		dto.FailReason = "" // 清空 FailReason，避免混淆
+	}
+	
+	return dto
 }
