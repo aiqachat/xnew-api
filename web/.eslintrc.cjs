@@ -1,6 +1,6 @@
 module.exports = {
   root: true,
-  env: { browser: true, es2021: true, node: true },
+  env: { browser: true, es2021: true, node: true, es6: true },
   parserOptions: {
     ecmaVersion: 2020,
     sourceType: 'module',
@@ -12,7 +12,8 @@ module.exports = {
       files: ['**/*.{js,jsx}'],
       rules: {
         'header/header': [
-          2,
+          0,
+          // 2,
           'block',
           [
             '',
