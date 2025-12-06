@@ -28,6 +28,10 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
+      '@helpers': path.resolve(__dirname, './src/helpers'),
+      '@hooks': path.resolve(__dirname, './src/hooks'),
+      '@constants': path.resolve(__dirname, './src/constants'),
+      '@components': path.resolve(__dirname, './src/components'),
     },
   },
   plugins: [

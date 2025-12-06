@@ -43,15 +43,15 @@ import {
   showSuccess,
   showWarning,
   stringToColor,
-} from '../../../helpers';
-import { useIsMobile } from '../../../hooks/common/useIsMobile';
-import { DEFAULT_ENDPOINT } from '../../../constants';
+} from '@helpers';
+import { useIsMobile } from '@hooks/common/useIsMobile';
+import { DEFAULT_ENDPOINT } from '@constants';
 import { useTranslation } from 'react-i18next';
 import {
   IllustrationNoResult,
   IllustrationNoResultDark,
 } from '@douyinfe/semi-illustrations';
-import ChannelSelectorModal from '../../../components/settings/ChannelSelectorModal';
+import ChannelSelectorModal from '@components/settings/ChannelSelectorModal';
 
 function ConflictConfirmModal({ t, visible, items, onOk, onCancel }) {
   const isMobile = useIsMobile();
