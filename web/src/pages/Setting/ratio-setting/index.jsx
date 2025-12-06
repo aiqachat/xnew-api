@@ -23,7 +23,7 @@ import { useTranslation } from 'react-i18next';
 
 import GroupRatioSettings from './components/GroupRatioSettings';
 import ModelRatioSettings from './components/ModelRatioSettings';
-import ModelSettingsVisualEditor from './components/ModelSettingsVisualEditor';
+import ModelSettingsVisualEditor from './components/model-settings-visual-editor';
 import ModelRatioNotSetEditor from './components/ModelRationNotSetEditor';
 import UpstreamRatioSync from './components/UpstreamRatioSync';
 
